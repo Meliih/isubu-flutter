@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "810322643089",
+    "project_id": "isubu-947fb",
+    "storage_bucket": "isubu-947fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810322643089:android:6e1115a4413673ce679730",
+        "android_client_info": {
+          "package_name": "com.example.isubu_universite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810322643089-da3aqh8f7be7ndhqptrpn9ifq54fh3qg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwOgAe7G9TQMUcWb-2szhwDuaHSJyzN2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "810322643089-da3aqh8f7be7ndhqptrpn9ifq54fh3qg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
