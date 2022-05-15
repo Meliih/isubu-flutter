@@ -132,7 +132,7 @@ class _CalculatorState extends State<Calculator> {
                             child: Text(
                           "Not Ortalamanız = " +
                               array[index].toString() +
-                              "\nHarf Notunuz = " +
+                              "\nHarf Notunuz : " +
                               harfaraligi(array[index]),
                           style: TextStyle(
                               fontSize: 27, fontWeight: FontWeight.values[4]),
