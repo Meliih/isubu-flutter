@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:isubu_universite/DbHelper.dart';
 import 'package:isubu_universite/NavigationDrawer.dart';
 import 'package:isubu_universite/auth.dart';
@@ -25,37 +26,41 @@ class _FacultiesState extends State<Faculties> {
     Auth().login('melih', '123');
       
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Bölümler'),
-        backgroundColor: Color.fromRGBO(32, 85, 165, 1),
-      ),
-      drawer: NavigationDrawer(),
-      body: Container(
-        height: size.height,
-        width: size.width,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: new AssetImage("assets/background.jpeg"),
-          fit: BoxFit.fill,
-        )),
-        child: 
-                FutureBuilder<List<String>>(
-                    future: faculties,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              
-                              return buildLine(context, snapshot.data![index], size);
-                            });
-                      } else if (snapshot.hasError) {
-                        return Text("${snapshot.error}");
-                      }
-                      return CircularProgressIndicator();
-                    })
+    return WillPopScope(
+      onWillPop: () { SystemNavigator.pop(); return Future.value(false); 
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Bölümler'),
+          backgroundColor: Color.fromRGBO(32, 85, 165, 1),
+        ),
+        drawer: NavigationDrawer(),
+        body: Container(
+          height: size.height,
+          width: size.width,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: new AssetImage("assets/background.jpeg"),
+            fit: BoxFit.fill,
+          )),
+          child: 
+                  FutureBuilder<List<String>>(
+                      future: faculties,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                
+                                return buildLine(context, snapshot.data![index], size);
+                              });
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        return CircularProgressIndicator();
+                      })
+        ),
       ),
     );
   }
