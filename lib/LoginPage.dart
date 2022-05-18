@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:isubu_universite/Faculties.dart';
+import 'package:isubu_universite/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -9,11 +12,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var unforget = false;
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    Session();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -89,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextField(
+                        controller: _usernameController,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.person,
@@ -123,6 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextField(
+                        controller: _passwordController,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.lock,
@@ -168,7 +175,25 @@ class _LoginPageState extends State<LoginPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {});
+                      Auth()
+                          .login(_usernameController.text,
+                              _passwordController.text)
+                          .then((value) {
+                        if (value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Faculties()));
+                        } else {
+                          final snackBar = SnackBar(
+                            content: const Text('Başarısız'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      });
+                    },
                     child: Text(
                       "Giriş Yap",
                       style: TextStyle(
@@ -183,5 +208,14 @@ class _LoginPageState extends State<LoginPage> {
             )),
       ),
     );
+  }
+
+  Session() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    if (username != null) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Faculties()));
+    }
   }
 }

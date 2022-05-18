@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:isubu_universite/DbHelper.dart';
 import 'package:isubu_universite/NavigationDrawer.dart';
+import 'package:isubu_universite/auth.dart';
+
+import 'Departments.dart';
 
 class Faculties extends StatefulWidget {
-  const Faculties({Key? key}) : super(key: key);
+  
 
+  const Faculties({Key? key}) : super(key: key);
+  
   @override
   State<Faculties> createState() => _FacultiesState();
 }
 
 class _FacultiesState extends State<Faculties> {
-  List<String> departments = [
-    "Büyükkutlu Uygulamalı Fakültesi",
-    "Eğirdir Su Fakültesi",
-    "İşletme Fakültesi",
-    "Orman Fakültesi",
-    "Teknoloji Fakültesi",
-    "Turizm Fakültesi"
-  ];
+  late Future<List<String>> faculties;
+  
   @override
   Widget build(BuildContext context) {
+    
+    faculties = DbHelper().getFaculties();
+      // print list element
+    Auth().login('melih', '123');
+      
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fakülteler'),
+        title: Text('Bölümler'),
         backgroundColor: Color.fromRGBO(32, 85, 165, 1),
       ),
       drawer: NavigationDrawer(),
@@ -35,13 +39,23 @@ class _FacultiesState extends State<Faculties> {
           image: new AssetImage("assets/background.jpeg"),
           fit: BoxFit.fill,
         )),
-        child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: departments.length,
-                  itemBuilder: (context, index) {
-                    return buildLine(context, departments[index], size);
-                  },
-                ),
+        child: 
+                FutureBuilder<List<String>>(
+                    future: faculties,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              
+                              return buildLine(context, snapshot.data![index], size);
+                            });
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+                      return CircularProgressIndicator();
+                    })
       ),
     );
   }
@@ -50,7 +64,7 @@ class _FacultiesState extends State<Faculties> {
   
   return GestureDetector(
     onTap: () {
-      DbHelper().readData();
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Departments(department: department)));
     },
     child: Container(
       height: 60,
@@ -69,7 +83,7 @@ class _FacultiesState extends State<Faculties> {
             child: Text(
               department,
               style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.normal,
                   color: Colors.white),
             ),

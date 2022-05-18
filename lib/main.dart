@@ -29,7 +29,7 @@ class AppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Colors.purple,
       ),
-      home: Faculties(),
+      home: LoginPage(),
     );
   }
 }
