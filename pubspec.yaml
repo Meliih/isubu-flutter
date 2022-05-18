@@ -42,6 +42,7 @@ dependencies:
   http:
   provider:
   shared_preferences:
+  syncfusion_flutter_pdfviewer: ^19.1.69-beta
 
 dev_dependencies:
   flutter_test:

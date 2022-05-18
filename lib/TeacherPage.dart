@@ -80,6 +80,7 @@ class _TeacherPageState extends State<TeacherPage> {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -94,6 +95,8 @@ class _TeacherPageState extends State<TeacherPage> {
               ],
             ),
             Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+
               children: [
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10, top: 10),

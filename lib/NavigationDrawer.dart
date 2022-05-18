@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:isubu_universite/DbHelper.dart';
+import 'package:isubu_universite/Faculties.dart';
 import 'package:isubu_universite/LoginPage.dart';
+import 'package:isubu_universite/PdfViewer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'Globals.dart' as globals;
 
 class NavigationDrawer extends StatefulWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -12,12 +17,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
   @override
   Widget build(BuildContext context) {
-    final name = "Melih Kahraman";
-    final email = "melih@ömer.com";
-    final image = "https://cdn-icons-png.flaticon.com/512/146/146031.png";
+    final name = globals.username;
+    final email = globals.email;
+    final image = "https://isparta.edu.tr/foto.aspx?sicil_no=01890";
+    setState(() {
+      globals.username = name;
+      globals.email = email;
+    });
     return Drawer(
       child: Material(
-          color: Colors.purple,
+          color: Color.fromRGBO(32, 85, 165, 1),
           child: ListView(
             children: <Widget>[
               buildHeader(
@@ -34,24 +43,37 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   children: [
                     const SizedBox(height: 16),
                     buildMenuItem(
-                      text: "İnsanlar",
-                      icon: Icons.people,
-                      onClicked: () => selectedItem(context, 0),
+                      text: "Fakülteler",
+                      icon: Icons.school,
+                      onClicked: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Faculties(),
+                          )),
                     ),
                     const SizedBox(height: 16),
                     buildMenuItem(
-                      text: "Favoriler",
-                      icon: Icons.favorite_border,
+                      text: "Duyurular",
+                      icon: Icons.notifications,
                     ),
                     const SizedBox(height: 16),
                     buildMenuItem(
-                      text: "İş Akışı",
-                      icon: Icons.workspaces_outline,
+                      text: "Akademik Takvim",
+                      icon: Icons.calendar_month,
+                      onClicked: () {
+                        DbHelper().academical().then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PdfViewer(path: value),
+                              ));
+                        });
+                      },
                     ),
                     const SizedBox(height: 16),
                     buildMenuItem(
-                      text: "Güncellemeler",
-                      icon: Icons.update,
+                      text: "Yemek Listesi",
+                      icon: Icons.food_bank,
                     ),
                     const SizedBox(height: 24),
                     Divider(color: Colors.white70),
@@ -60,11 +82,21 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       text: "Destek",
                       icon: Icons.support,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
                     buildMenuItem(
-                      text: "Bildirimler",
-                      icon: Icons.notifications_outlined,
-                    ),
+                        text: "Çıkış Yap",
+                        icon: Icons.logout,
+                        onClicked: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+
+                          prefs.remove('username');
+                          prefs.remove('email');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
+                        }),
                   ],
                 ),
               ),

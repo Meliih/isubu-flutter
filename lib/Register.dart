@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:isubu_universite/DbHelper.dart';
+import 'package:isubu_universite/auth.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -9,6 +11,10 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -70,6 +76,7 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextField(
+                        controller: usernameController,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.person,
@@ -104,6 +111,7 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextField(
+                        controller: passwordController,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.lock,
@@ -138,6 +146,7 @@ class _RegisterState extends State<Register> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.email,
@@ -168,7 +177,16 @@ class _RegisterState extends State<Register> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        
+                      });
+                      Auth().signup(usernameController.text, passwordController.text, emailController.text).then((value) {if(value){
+                        Navigator.pop(context);
+                      }
+                      
+                      });
+                    },
                     child: Text(
                       "Kayıt Ol",
                       style: TextStyle(

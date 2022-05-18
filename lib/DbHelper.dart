@@ -24,7 +24,6 @@ class DbHelper {
       String value = element.key.toString();
       // add to list
       faculties.add(value);
-     
     });
 
     return faculties;
@@ -32,7 +31,8 @@ class DbHelper {
 
   Future<List<String>> getDepartments(String faculty) async {
     List<String> departments = [];
-    final event = await FirebaseDatabase.instance.ref('faculties/$faculty').once();
+    final event =
+        await FirebaseDatabase.instance.ref('faculties/$faculty').once();
 
     final data = event.snapshot.children;
     // child name
@@ -40,33 +40,40 @@ class DbHelper {
       String value = element.key.toString();
       // add to list
       departments.add(value);
-      
     });
 
     return departments;
   }
 
   Future<List<Teacher>> getTeachers(String department) async {
-    
     List<Teacher> teachers = [];
-    final event = await FirebaseDatabase.instance.ref('faculties/$department/Hocalar').once();
-    
+    final event = await FirebaseDatabase.instance
+        .ref('faculties/$department/Hocalar')
+        .once();
+
     final data = event.snapshot.children;
     // child name
     data.forEach((element) {
       List<String> teacherinfo = [];
-      String value = element.value.toString().replaceAll('{', '').replaceAll('}', '');
+      String value =
+          element.value.toString().replaceAll('{', '').replaceAll('}', '');
       value.split(',').forEach((element) {
         String info = element.split(':')[1];
         teacherinfo.add(info);
-        
       });
       // add to list
       teachers.add(Teacher(teacherinfo[0], teacherinfo[1], teacherinfo[2]));
-      
     });
 
     return teachers;
+  }
+
+  Future<String> academical() async {
+    final event = await FirebaseDatabase.instance.ref('akademik_takvim').once();
+
+    final path = event.snapshot.value.toString();
+    print(path);
+    return path;
   }
 }
 
@@ -76,6 +83,4 @@ class Teacher {
   late String phone;
 
   Teacher(this.phone, this.name, this.email);
-
-  
 }

@@ -34,6 +34,7 @@ class Auth {
       if((usernameInput == username || username == emailInput) && passwordInput == password){
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', username);
+        prefs.setString('email', emailInput);
 
         return true;
       }

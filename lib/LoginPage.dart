@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:isubu_universite/Faculties.dart';
+import 'package:isubu_universite/HomePage.dart';
+import 'package:isubu_universite/Register.dart';
 import 'package:isubu_universite/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'Globals.dart' as globals;
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -32,25 +34,31 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 30,
+                  height: 50,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: 10, right: 10, bottom: 5, top: 5),
-                      decoration: const BoxDecoration(
-                          color: Color.fromRGBO(32, 85, 165, 1),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                          )),
-                      child: Text(
-                        "Misafir Giriş/Kayıt",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+           
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            left: 10, right: 10, bottom: 5, top: 5),
+                        decoration: const BoxDecoration(
+                            color: Color.fromRGBO(32, 85, 165, 1),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                            )),
+                        child: Text(
+                          "Misafir Giriş/Kayıt",
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.white),
+                        ),
                       ),
                     ),
                   ],
@@ -185,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Faculties()));
+                                  builder: (context) => HomePage()));
                         } else {
                           final snackBar = SnackBar(
                             content: const Text('Başarısız'),
@@ -213,9 +221,13 @@ class _LoginPageState extends State<LoginPage> {
   Session() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
+    String? email = prefs.getString('email');
+    globals.username = username!;
+    globals.email = email!;
+    
     if (username != null) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Faculties()));
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     }
   }
 }
