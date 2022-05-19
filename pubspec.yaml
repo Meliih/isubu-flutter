@@ -43,6 +43,11 @@ dependencies:
   provider:
   shared_preferences:
   syncfusion_flutter_pdfviewer: ^19.1.69-beta
+  firebase_storage: ^10.2.16
+  
+  firebase_messaging:
+  flutter_local_notifications:
+  
 
 dev_dependencies:
   flutter_test:

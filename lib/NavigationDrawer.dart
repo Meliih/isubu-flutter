@@ -5,9 +5,13 @@ import 'package:isubu_universite/LoginPage.dart';
 import 'package:isubu_universite/PdfViewer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Globals.dart' as globals;
+import 'NotificationPage.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 
 class NavigationDrawer extends StatefulWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+  final notifications;
+  const NavigationDrawer({Key? key,  this.notifications}) : super(key: key);
 
   @override
   State<NavigationDrawer> createState() => _NavigationDrawerState();
@@ -17,12 +21,22 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
   @override
   Widget build(BuildContext context) {
+    final storageRef = FirebaseStorage.instance.ref();
+    String foodlistUrl = "";
+    storageRef.child("yemek.pdf").getDownloadURL().then((value) {
+      foodlistUrl = value;
+    });
+    
+    
+
+
     final name = globals.username;
     final email = globals.email;
     final image = "https://isparta.edu.tr/foto.aspx?sicil_no=01890";
     setState(() {
       globals.username = name;
       globals.email = email;
+      foodlistUrl = foodlistUrl;
     });
     return Drawer(
       child: Material(
@@ -55,6 +69,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                     buildMenuItem(
                       text: "Duyurular",
                       icon: Icons.notifications,
+                      onClicked: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NotificationPage(notifications : widget.notifications),
+                          )), 
                     ),
                     const SizedBox(height: 16),
                     buildMenuItem(
@@ -74,6 +93,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                     buildMenuItem(
                       text: "Yemek Listesi",
                       icon: Icons.food_bank,
+                      onClicked: () {
+                        
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PdfViewer(path: foodlistUrl),
+                              ));
+                        
+                      },
+                      
                     ),
                     const SizedBox(height: 24),
                     Divider(color: Colors.white70),

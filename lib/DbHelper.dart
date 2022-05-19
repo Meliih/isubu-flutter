@@ -7,11 +7,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 
 class DbHelper {
-  void writeData(var trainer) {
-    DatabaseReference reference =
-        FirebaseDatabase.instance.reference().child("a");
-    reference.set('asd');
-  }
+  
 
   //read data null check
   Future<List<String>> getFaculties() async {
@@ -39,10 +35,41 @@ class DbHelper {
     data.forEach((element) {
       String value = element.key.toString();
       // add to list
-      departments.add(value);
+      if (value != 'Duyurular') {
+        departments.add(value);
+      }
     });
 
     return departments;
+  }
+
+  Future<List<Notifications>> getNotification() async {
+    List<Notifications> notifications = [];
+    List<String> faculties = [];
+    faculties = await getFaculties();
+      for(var faculty in faculties) {
+        final event = await FirebaseDatabase.instance
+            .ref('faculties/$faculty/Duyurular')
+            .once();
+            
+          final data = event.snapshot.children;
+          // child name
+          data.forEach((element) {
+            String body = event.snapshot.child(element.key.toString()).child('body').value.toString();
+            String head = event.snapshot.child(element.key.toString()).child('head').value.toString();
+            
+            notifications.add(Notifications(head, body,faculty));
+       
+           
+            
+      
+          });
+        };
+        print("notifications[0].head");
+      
+  
+
+    return notifications;
   }
 
   Future<List<Teacher>> getTeachers(String department) async {
@@ -83,4 +110,12 @@ class Teacher {
   late String phone;
 
   Teacher(this.phone, this.name, this.email);
+}
+
+class Notifications {
+  late String head;
+  late String body;
+  late String faculty;
+
+  Notifications(this.head, this.body, this.faculty);
 }
