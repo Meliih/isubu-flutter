@@ -5,6 +5,7 @@ import 'package:isubu_universite/Register.dart';
 import 'package:isubu_universite/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Globals.dart' as globals;
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -16,6 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   var unforget = false;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  bool isHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +43,11 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
-           
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Register()));
                       },
                       child: Container(
                         padding: EdgeInsets.only(
@@ -137,11 +142,18 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextField(
+                        obscureText: isHidden,
                         controller: _passwordController,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.lock,
                             color: Color.fromRGBO(32, 85, 165, 1),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: isHidden
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: togglePasswordVisibilty,
                           ),
                           border: InputBorder.none,
                           hintText: "Parola",
@@ -219,15 +231,19 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Session() async {
+    setState(() {});
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
     String? email = prefs.getString('email');
-    globals.username = username!;
-    globals.email = email!;
-    
-    if (username != null) {
+
+    if (username != null && email != null) {
+      globals.username = username;
+      globals.email = email;
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
     }
   }
+
+  void togglePasswordVisibilty() => setState(() => isHidden = !isHidden);
 }

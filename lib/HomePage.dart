@@ -64,23 +64,26 @@ class _HomePageState extends State<HomePage> {
         }
       },
     );
-
   }
 
   @override
   Widget build(BuildContext context) {
-    
     Size size = MediaQuery.of(context).size;
     notification = DbHelper().getNotification();
     return WillPopScope(
-      onWillPop: () { SystemNavigator.pop(); return Future.value(false);},
+      onWillPop: () {
+        SystemNavigator.pop();
+        return Future.value(false);
+      },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: Text('ISUBU ÖĞRENCİ PLATFORMU'),
           backgroundColor: Color.fromRGBO(32, 85, 165, 1),
         ),
-        drawer: NavigationDrawer(notifications: notification,),
+        drawer: NavigationDrawer(
+          notifications: notification,
+        ),
         body: SingleChildScrollView(
           child: Container(
               height: size.height,
@@ -91,7 +94,6 @@ class _HomePageState extends State<HomePage> {
               )),
               child: Column(
                 children: [
-                 
                   SizedBox(
                     height: 10,
                   ),
@@ -102,36 +104,51 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 15,
                   ),
-                  
-                  
-                  
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                    Text("Duyurular", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                    GestureDetector(child: Text('Tümünü Göster', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, ),), onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationPage( notifications: notification,)));
-                    },)
-                    
-                  ]),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Duyurular",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        GestureDetector(
+                          child: Text(
+                            'Tümünü Göster',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NotificationPage(
+                                          notifications: notification,
+                                        )));
+                          },
+                        )
+                      ]),
                   Expanded(
                     child: Container(
-                      
                       child: FutureBuilder<List<Notifications>>(
-                            future: notification,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
+                          future: notification,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
                                   shrinkWrap: true,
-                                    itemCount: snapshot.data!.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      
-                                      return buildLine(context, snapshot.data![index], size);
-                                    });
-                              } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
-                              }
-                              return CircularProgressIndicator();
-                            }),
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return buildLine(
+                                        context, snapshot.data![index], size);
+                                  });
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return CircularProgressIndicator();
+                          }),
                     ),
                   )
                 ],
@@ -140,71 +157,68 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  Widget buildLine(BuildContext context, Notifications notification, Size size) {
-  
-  return GestureDetector(
-    onTap: () {
-      
-    },
-    child: Container(
-      height: 150,
-     
-      // width: size.width,
-      margin: EdgeInsets.all(1),
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(42, 115, 186, 1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              child: Text(
-                notification.faculty,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white),
-              ),
-            ),
-          ),
-          Divider(
-            thickness: 2,
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              child: Text(
-                notification.head,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white),
-              ),
-            ),
-          ),
-          Container(
-            height: 90,
-            margin: EdgeInsets.only(left: 10, right: 10),
-            child: SingleChildScrollView(
-              child: Text(
-                notification.body,
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white),
-              ),
-            ),
-          ),
-          
-        ],
 
+  Widget buildLine(
+      BuildContext context, Notifications notification, Size size) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        height: 150,
+
+        // width: size.width,
+        margin: EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(42, 115, 186, 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                child: Text(
+                  notification.faculty,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+            Divider(
+              thickness: 2,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                child: Text(
+                  notification.head,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+            Container(
+              height: 90,
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: SingleChildScrollView(
+                child: Text(
+                  notification.body,
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

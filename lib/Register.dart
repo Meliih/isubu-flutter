@@ -14,7 +14,7 @@ class _RegisterState extends State<Register> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
+  bool isHidden = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -117,6 +117,12 @@ class _RegisterState extends State<Register> {
                             Icons.lock,
                             color: Color.fromRGBO(32, 85, 165, 1),
                           ),
+                          suffixIcon: IconButton(
+                            icon: isHidden
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: togglePasswordVisibilty,
+                          ),
                           border: InputBorder.none,
                           hintText: "Parola",
                           hintStyle: TextStyle(
@@ -178,13 +184,14 @@ class _RegisterState extends State<Register> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     onPressed: () {
-                      setState(() {
-                        
-                      });
-                      Auth().signup(usernameController.text, passwordController.text, emailController.text).then((value) {if(value){
-                        Navigator.pop(context);
-                      }
-                      
+                      setState(() {});
+                      Auth()
+                          .signup(usernameController.text,
+                              passwordController.text, emailController.text)
+                          .then((value) {
+                        if (value) {
+                          Navigator.pop(context);
+                        }
                       });
                     },
                     child: Text(
@@ -202,4 +209,6 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
+  void togglePasswordVisibilty() => setState(() => isHidden = !isHidden);
 }

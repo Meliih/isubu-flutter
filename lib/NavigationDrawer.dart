@@ -8,10 +8,9 @@ import 'Globals.dart' as globals;
 import 'NotificationPage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-
 class NavigationDrawer extends StatefulWidget {
   final notifications;
-  const NavigationDrawer({Key? key,  this.notifications}) : super(key: key);
+  const NavigationDrawer({Key? key, this.notifications}) : super(key: key);
 
   @override
   State<NavigationDrawer> createState() => _NavigationDrawerState();
@@ -26,13 +25,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     storageRef.child("yemek.pdf").getDownloadURL().then((value) {
       foodlistUrl = value;
     });
-    
-    
 
-
-    final name = globals.username;
-    final email = globals.email;
-    final image = "https://isparta.edu.tr/foto.aspx?sicil_no=01890";
+    String name = globals.username;
+    String email = globals.email;
+    String image = "assets/user.png";
     setState(() {
       globals.username = name;
       globals.email = email;
@@ -72,8 +68,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       onClicked: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => NotificationPage(notifications : widget.notifications),
-                          )), 
+                            builder: (context) => NotificationPage(
+                                notifications: widget.notifications),
+                          )),
                     ),
                     const SizedBox(height: 16),
                     buildMenuItem(
@@ -94,15 +91,13 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       text: "Yemek Listesi",
                       icon: Icons.food_bank,
                       onClicked: () {
-                        
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PdfViewer(path: foodlistUrl),
-                              ));
-                        
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  PdfViewer(path: foodlistUrl),
+                            ));
                       },
-                      
                     ),
                     const SizedBox(height: 24),
                     Divider(color: Colors.white70),
@@ -121,10 +116,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
                           prefs.remove('username');
                           prefs.remove('email');
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
+                          setState(() {});
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
                         }),
                   ],
                 ),
@@ -174,7 +168,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             children: [
               CircleAvatar(
                 radius: 30,
-                backgroundImage: NetworkImage(image),
+                backgroundImage: AssetImage(image),
               ),
               SizedBox(
                 width: 20,

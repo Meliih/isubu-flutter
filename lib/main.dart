@@ -9,11 +9,11 @@ import 'package:isubu_universite/Faculties.dart';
 import 'HomePage.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
-  	print(message.data.toString());
- 	print(message.notification!.title);
-	}
+  print(message.data.toString());
+  print(message.notification!.title);
+}
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -38,7 +38,7 @@ class AppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Colors.purple,
       ),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

@@ -7,8 +7,6 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 
 class DbHelper {
-  
-
   //read data null check
   Future<List<String>> getFaculties() async {
     List<String> faculties = [];
@@ -47,27 +45,28 @@ class DbHelper {
     List<Notifications> notifications = [];
     List<String> faculties = [];
     faculties = await getFaculties();
-      for(var faculty in faculties) {
-        final event = await FirebaseDatabase.instance
-            .ref('faculties/$faculty/Duyurular')
-            .once();
-            
-          final data = event.snapshot.children;
-          // child name
-          data.forEach((element) {
-            String body = event.snapshot.child(element.key.toString()).child('body').value.toString();
-            String head = event.snapshot.child(element.key.toString()).child('head').value.toString();
-            
-            notifications.add(Notifications(head, body,faculty));
-       
-           
-            
-      
-          });
-        };
-        print("notifications[0].head");
-      
-  
+    for (var faculty in faculties) {
+      final event = await FirebaseDatabase.instance
+          .ref('faculties/$faculty/Duyurular')
+          .once();
+
+      final data = event.snapshot.children;
+      // child name
+      data.forEach((element) {
+        String body = event.snapshot
+            .child(element.key.toString())
+            .child('body')
+            .value
+            .toString();
+        String head = event.snapshot
+            .child(element.key.toString())
+            .child('head')
+            .value
+            .toString();
+
+        notifications.add(Notifications(head, body, faculty));
+      });
+    }
 
     return notifications;
   }
@@ -99,7 +98,6 @@ class DbHelper {
     final event = await FirebaseDatabase.instance.ref('akademik_takvim').once();
 
     final path = event.snapshot.value.toString();
-    print(path);
     return path;
   }
 }
