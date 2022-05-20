@@ -112,6 +112,7 @@ class _RegisterState extends State<Register> {
                       ),
                       child: TextField(
                         controller: passwordController,
+                        obscureText: isHidden,
                         decoration: InputDecoration(
                           icon: Icon(
                             Icons.lock,
@@ -183,16 +184,17 @@ class _RegisterState extends State<Register> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       setState(() {});
-                      Auth()
-                          .signup(usernameController.text,
-                              passwordController.text, emailController.text)
-                          .then((value) {
-                        if (value) {
-                          Navigator.pop(context);
+                      if (!isEmpty() && validator()) {
+                        if (await Auth().signup(usernameController.text,
+                            passwordController.text, emailController.text)) {
+                              Navigator.pop(context);
+                            }
+                        else{
+                          showAlert("Bu kullanıcı adı zaten kullanılıyor.");
                         }
-                      });
+                      }
                     },
                     child: Text(
                       "Kayıt Ol",
@@ -207,6 +209,73 @@ class _RegisterState extends State<Register> {
               ],
             )),
       ),
+    );
+  }
+
+  bool isEmpty() {
+    if (usernameController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        emailController.text.isEmpty) {
+      showAlert("Boş alan bırakmayınız.");
+      return true;
+    }
+    return false;
+  }
+
+  bool validator() {
+    String nums = "0123456789";
+    for (int i = 0; i < usernameController.text.length; i++) {
+      bool correct = false;
+      for (int j = 0; j < nums.length; j++) {
+        if (usernameController.text[i] == nums[j]) {
+          correct = true;
+        }
+      }
+      if (!correct) {
+        showAlert("Kullanıcı adınız yalnızca sayılardan oluşabilir");
+        return false;
+      }
+    }
+    // username includes only numbers
+    if (passwordController.text.length < 8) {
+      showAlert("Parolanız en az 8 karakter olmalıdır.");
+      return false;
+    }
+
+    bool includeat = false;
+    bool includeDot = false;
+    for (int i = 0; i < emailController.text.length; i++) {
+      if (emailController.text[i] == '@') {
+        includeat = true;
+      } else if (emailController.text[i] == '.') {
+        includeDot = true;
+      }
+    }
+    if (!includeat || !includeDot) {
+      showAlert("Email adresinizi doğru girdiğinizden emin olunuz.");
+      return false;
+    }
+
+    return true;
+  }
+
+  void showAlert(String alert) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Hata"),
+          content: Text(alert),
+          actions: [
+            FlatButton(
+              child: Text("Tamam"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:isubu_universite/DbHelper.dart';
 import 'package:isubu_universite/Departments.dart';
 import 'package:isubu_universite/Faculties.dart';
@@ -27,15 +28,7 @@ class _HomePageState extends State<HomePage> {
         print("FirebaseMessaging.instance.getInitialMessage");
         if (message != null) {
           print("New Notification");
-          // if (message.data['_id'] != null) {
-          //   Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => DemoScreen(
-          //         id: message.data['_id'],
-          //       ),
-          //     ),
-          //   );
-          // }
+          
         }
       },
     );
@@ -221,4 +214,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  //custom notification
+
 }

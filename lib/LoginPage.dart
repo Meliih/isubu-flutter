@@ -199,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {});
                       Auth()
                           .login(_usernameController.text,
-                              _passwordController.text)
+                              _passwordController.text, unforget)
                           .then((value) {
                         if (value) {
                           Navigator.push(

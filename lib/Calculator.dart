@@ -26,7 +26,8 @@ class _CalculatorState extends State<Calculator> {
       resizeToAvoidBottomInset: true,
       drawer: NavigationDrawer(),
       appBar: AppBar(
-        title: Text('Calculator'),
+        backgroundColor: Color.fromRGBO(32, 85, 165, 1),
+        title: Text('Vize - Final Hesaplayıcı'),
       ),
       body: SingleChildScrollView(
         child: Container(

@@ -5,7 +5,7 @@ import 'NavigationDrawer.dart';
 
 class NotificationPage extends StatefulWidget {
   final notifications;
-  const NotificationPage({ Key? key ,  this.notifications}) : super(key: key);
+  const NotificationPage({ Key? key , required this.notifications}) : super(key: key);
 
   @override
   State<NotificationPage> createState() => _NotificationPageState();
@@ -21,6 +21,10 @@ class _NotificationPageState extends State<NotificationPage> {
     } else {
       print("b");
       notification = widget.notifications;
+      if (notification == null)
+      {
+        notification = DbHelper().getNotification();
+      }
     }
     Size size = MediaQuery.of(context).size;
     

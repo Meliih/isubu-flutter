@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isubu_universite/Calculator.dart';
 import 'package:isubu_universite/DbHelper.dart';
 import 'package:isubu_universite/Faculties.dart';
 import 'package:isubu_universite/LoginPage.dart';
@@ -100,12 +101,22 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       },
                     ),
                     const SizedBox(height: 24),
-                    Divider(color: Colors.white70),
-                    const SizedBox(height: 20),
+                    
                     buildMenuItem(
-                      text: "Destek",
-                      icon: Icons.support,
+                      text: "Hesaplayıcı",
+                      icon: Icons.calculate,
+                      onClicked: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  Calculator(),
+                            ));
+                      },
                     ),
+                    const SizedBox(height: 20),
+                    Divider(color: Colors.white70),
+                    
                     const SizedBox(height: 20),
                     buildMenuItem(
                         text: "Çıkış Yap",

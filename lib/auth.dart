@@ -5,20 +5,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
-
+// globals
+import 'package:isubu_universite/Globals.dart' as globals;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'HomePage.dart';
 
 class Auth {
-  void writeData(var trainer) {
-    DatabaseReference reference =
-        FirebaseDatabase.instance.reference().child("a");
-    reference.set('asd');
-  }
-
+  
   //read data null check
-  Future<bool> login(String username, String password) async {
+  Future<bool> login(String username, String password, bool unforget) async {
     
     final event = await FirebaseDatabase.instance.ref('users/$username').once();
 
@@ -29,13 +25,19 @@ class Auth {
       final usernameInput = event.snapshot.child('username').value.toString();
       final passwordInput = event.snapshot.child('password').value.toString();
       final emailInput = event.snapshot.child('email').value.toString();
-      print(username);
+      
+      
 
-      if((usernameInput == username || username == emailInput) && passwordInput == password){
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('username', username);
-        prefs.setString('email', emailInput);
-
+      if(usernameInput == username && passwordInput == base64Encode(utf8.encode(password))){
+        
+        if(unforget){
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('username', username);
+          prefs.setString('email', emailInput);
+        }
+        
+        globals.username = username;
+        globals.email = emailInput;
         return true;
       }
       else
@@ -44,10 +46,15 @@ class Auth {
       
   }
 
-  Future<bool> signup(String username, String password, String email) async {
+  Future<bool> signup(String username, String password, String email ) async {
     
-    login(username, password).then((value){
-      if(value == true)
+    bool log = await login(username, password, false);
+    // encode password
+    password = base64Encode(utf8.encode(password));
+    
+    //decode password
+    
+      if(log == true)
         return false;
       else
       {
@@ -60,8 +67,8 @@ class Auth {
         });
         return true;
       }
-    });
-    return false;
+    
+    
       
   }
 

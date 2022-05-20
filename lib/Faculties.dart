@@ -23,7 +23,7 @@ class _FacultiesState extends State<Faculties> {
     
     faculties = DbHelper().getFaculties();
       // print list element
-    Auth().login('melih', '123');
+    
       
     var size = MediaQuery.of(context).size;
     return Scaffold(
