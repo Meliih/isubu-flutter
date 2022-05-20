@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isubu_universite/NotificationPage.dart';
 import 'package:isubu_universite/TeacherPage.dart';
 
 import 'DbHelper.dart';
@@ -91,7 +92,7 @@ class _DepartmentsState extends State<Departments> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationPage(notifications: widget.department)));},
                   child: Container(
                     width: size.width * 3 / 11,
                     height: 40,

@@ -71,6 +71,35 @@ class DbHelper {
     return notifications;
   }
 
+  Future<List<Notifications>> getNotificationByFaculty(String faculty) async {
+    List<Notifications> notifications = [];
+    
+      final event = await FirebaseDatabase.instance
+          .ref('faculties/$faculty/Duyurular')
+          .once();
+
+      final data = event.snapshot.children;
+      // child name
+      data.forEach((element) {
+        String body = event.snapshot
+            .child(element.key.toString())
+            .child('body')
+            .value
+            .toString();
+        String head = event.snapshot
+            .child(element.key.toString())
+            .child('head')
+            .value
+            .toString();
+
+        notifications.add(Notifications(head, body, faculty));
+      });
+    
+
+    return notifications;
+  }
+
+
   Future<List<Teacher>> getTeachers(String department) async {
     List<Teacher> teachers = [];
     final event = await FirebaseDatabase.instance

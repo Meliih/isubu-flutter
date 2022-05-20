@@ -5,7 +5,7 @@ import 'NavigationDrawer.dart';
 
 class NotificationPage extends StatefulWidget {
   final notifications;
-  const NotificationPage({ Key? key , required this.notifications}) : super(key: key);
+  const NotificationPage({ Key? key ,  this.notifications}) : super(key: key);
 
   @override
   State<NotificationPage> createState() => _NotificationPageState();
@@ -15,8 +15,15 @@ class _NotificationPageState extends State<NotificationPage> {
   late Future<List<Notifications>> notification;
   @override
   Widget build(BuildContext context) {
+    if (widget.notifications.runtimeType == String) {
+      print("a");
+      notification = DbHelper().getNotificationByFaculty(widget.notifications);
+    } else {
+      print("b");
+      notification = widget.notifications;
+    }
     Size size = MediaQuery.of(context).size;
-    notification = widget.notifications;
+    
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
