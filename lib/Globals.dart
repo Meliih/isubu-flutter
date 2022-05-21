@@ -6,3 +6,4 @@ import 'DbHelper.dart';
 
 String username = "";
 String email = "";
+bool isLoggedIn = false;

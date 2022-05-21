@@ -23,7 +23,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Session();
+    if (globals.isLoggedIn == false) {
+      Session();
+      globals.isLoggedIn = true;
+    }
+    //
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -231,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Session() async {
-    setState(() {});
+    //setState(() {});
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
     String? email = prefs.getString('email');
@@ -239,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
     if (username != null && email != null) {
       globals.username = username;
       globals.email = email;
-
+      print("object");
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
     }

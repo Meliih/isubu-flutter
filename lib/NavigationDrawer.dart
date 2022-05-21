@@ -52,7 +52,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 padding: padding,
                 child: Column(
                   children: [
-                    const SizedBox(height: 16),
                     buildMenuItem(
                       text: "Fakülteler",
                       icon: Icons.school,
@@ -62,7 +61,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                             builder: (context) => Faculties(),
                           )),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     buildMenuItem(
                       text: "Duyurular",
                       icon: Icons.notifications,
@@ -73,7 +72,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                                 notifications: widget.notifications),
                           )),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     buildMenuItem(
                       text: "Akademik Takvim",
                       icon: Icons.calendar_month,
@@ -87,7 +86,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                         });
                       },
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     buildMenuItem(
                       text: "Yemek Listesi",
                       icon: Icons.food_bank,
@@ -100,8 +99,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                             ));
                       },
                     ),
-                    const SizedBox(height: 24),
-                    
+                    const SizedBox(height: 12),
                     buildMenuItem(
                       text: "Hesaplayıcı",
                       icon: Icons.calculate,
@@ -109,15 +107,25 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  Calculator(),
+                              builder: (context) => Calculator(),
                             ));
+                        print("calculate gidis");
                       },
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
+                    buildMenuItem(
+                        text: "GNO :- Çok Yakında",
+                        icon: Icons.school,
+                        onClicked: () {}),
+                    const SizedBox(height: 12),
+                    buildMenuItem(
+                      text: "Ders Dökümanları - Çok yakında",
+                      icon: Icons.school,
+                      onClicked: () {},
+                    ),
+                    const SizedBox(height: 12),
                     Divider(color: Colors.white70),
-                    
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
                     buildMenuItem(
                         text: "Çıkış Yap",
                         icon: Icons.logout,

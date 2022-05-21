@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-
 import 'NavigationDrawer.dart';
 
 class Calculator extends StatefulWidget {
@@ -59,7 +56,9 @@ class _CalculatorState extends State<Calculator> {
                       rowCount--;
                       vizenotlari.removeLast();
                       vizeoran.removeLast();
-                      setState(() {});
+                      setState(() {
+                        print("remove vize");
+                      });
                     },
                     color: Color.fromRGBO(32, 85, 165, 0),
                     child: Icon(
@@ -85,7 +84,9 @@ class _CalculatorState extends State<Calculator> {
                           rowCount++;
                           vizenotlari.add(TextEditingController());
                           vizeoran.add(TextEditingController());
-                          setState(() {});
+                          setState(() {
+                            print("vize eklemek için");
+                          });
                         },
                         color: Color.fromRGBO(32, 85, 165, 1),
                         child: Text(
@@ -365,14 +366,16 @@ class _CalculatorState extends State<Calculator> {
       agirliklinotortalamasi += finalnotuu * finalorann / 100;
       array.clear();
       array.add(agirliklinotortalamasi);
-      setState(() {});
+      setState(() {
+        print("hata yok");
+      });
     }
   }
 
   String harfaraligi(double number) {
     if (number >= 88 && number <= 100) {
       return "AA";
-    } else if (number >= 80 && number < 87) {
+    } else if (number >= 80 && number <= 87) {
       return "BA";
     } else if (number >= 73 && number <= 79) {
       return "BB";
@@ -380,9 +383,9 @@ class _CalculatorState extends State<Calculator> {
       return "CB";
     } else if (number >= 60 && number <= 65) {
       return "CC";
-    } else if (number > 55 && number <= 59) {
+    } else if (number >= 55 && number <= 59) {
       return "DC";
-    } else if (number > 50 && number <= 54) {
+    } else if (number >= 50 && number <= 54) {
       return "DD";
     } else if (number >= 0 && number <= 49) {
       return "FF";
