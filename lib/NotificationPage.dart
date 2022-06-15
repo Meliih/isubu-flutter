@@ -38,6 +38,7 @@ class _NotificationPageState extends State<NotificationPage> {
       body: SingleChildScrollView(
         child: Container(
             height: size.height,
+            width: size.width,
             decoration: BoxDecoration(
                 image: DecorationImage(
               image: new AssetImage("assets/background.jpeg"),
